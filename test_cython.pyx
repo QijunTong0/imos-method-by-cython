@@ -1,5 +1,7 @@
 cdef int i
-for i in range(1, 100000000):
-    i = i + 1
+cdef int[20000000] arr
+for i in range(20000000):
+    arr[i] = i + 1
 
-print(i)
+for i in range(1,20000000):
+    arr[i]+=arr[i-1]
