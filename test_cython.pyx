@@ -1,3 +1,4 @@
+cimport numpy as np
 cdef int i
 cdef int[20000000] arr
 for i in range(20000000):
