@@ -1,4 +1,5 @@
 from setuptools import setup
 from Cython.Build import cythonize
+import numpy
 
-setup(ext_modules=cythonize("test_cython.pyx"))
+setup(ext_modules=cythonize("imos_cython.pyx"), include_dirs=[numpy.get_include()])
