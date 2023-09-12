@@ -1,5 +1,6 @@
 from time import time_ns
 import numpy as np
+import numexpr as ne
 
 
 def bit_count(arr):
@@ -17,20 +18,27 @@ def bit_count(arr):
     return (arr * s01) >> (8 * (arr.itemsize - 1))
 
 
+def ne_popcount(x):
+    x = x - ((x >> 1) & 0x5555555555555555)
+    x = (x & 0x3333333333333333) + ((x >> 2) & 0x3333333333333333)
+
+    x = (x + (x >> 4)) & 0x0F0F0F0F0F0F0F0F
+    x = x + (x >> 8)
+    x = x + (x >> 16)
+    x = x + (x >> 32)
+    return x & 0x0000007F
+
+
 k = 200
 m = 30
 n = 76
-shape = np.array([k, m, n])
-arr = np.random.randint(0, 114514, size=shape, dtype=np.uint64)
-"""
-st = np.random.randint(0, n // 2, size=shape, dtype=np.int32)
-ed = st + np.random.randint(0, n // 2, size=shape, dtype=np.int32)
-res = imos_cython(shape, st, ed)
-"""
+arr = np.random.randint(0, 114514, size=(k, m, n), dtype=np.int64)
+ne.evaluate("n&n")
+
 clock = time_ns()
 out1 = bit_count(arr)
 print((time_ns() - clock) / 1000000, "ms")
 
 clock = time_ns()
-# out2 = numpy_popcount(arr)
+out2 = ne_popcount(arr)
 print((time_ns() - clock) / 1000000, "ms")
