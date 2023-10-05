@@ -3,6 +3,7 @@
 #cython: wraparound=False
 import numpy as np
 cimport numpy as cnp
+from cython.parallel import prange
 cnp.import_array()
 
 def imos_cython(cnp.ndarray[cnp.int32_t, ndim=1] shape, cnp.ndarray[cnp.int32_t, ndim=3] st, cnp.ndarray[cnp.int32_t, ndim=3] ed):
@@ -20,6 +21,22 @@ def imos_cython(cnp.ndarray[cnp.int32_t, ndim=1] shape, cnp.ndarray[cnp.int32_t,
                 res[i,j,k] += res[i,j,k - 1]
     return res
 
+def imos1d_cython(
+        int n,
+        cnp.ndarray[cnp.int32_t, ndim=1] st,
+        cnp.ndarray[cnp.int32_t, ndim=1] ed
+        ):
+    cdef cnp.ndarray[cnp.int32_t, ndim=1] res = np.zeros(n,dtype=np.int32)
+    cdef int i
+    for i in prange(st.shape[0],nogil=True):
+        res[st[i]] += 1
+        res[ed[i]] -= 1
+
+    for i in range(n-1):
+        res[i+1] += res[i]
+    return res
+
+
 def popcount_array(cnp.ndarray[cnp.uint64_t,ndim=3] arr):
     cdef int i,j,k
     for i in range(arr.shape[0]):
@@ -28,7 +45,7 @@ def popcount_array(cnp.ndarray[cnp.uint64_t,ndim=3] arr):
                 arr[i,j,k]=popcount(arr[i,j,k])
     return arr
 
-def popcount(cnp.uint64_t x):
+cdef popcount(cnp.uint64_t x):
     # 2bitごとの組に分け、立っているビット数を2bitで表現する
     x = x - ((x >> 1) & 0x5555555555555555)
 
