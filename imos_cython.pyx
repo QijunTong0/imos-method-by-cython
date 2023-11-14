@@ -24,7 +24,7 @@ def imos_cython(cnp.ndarray[cnp.int32_t, ndim=1] shape, cnp.ndarray[cnp.int32_t,
 def imos1d_cython(
         int n,
         cnp.ndarray[cnp.int32_t, ndim=1] st,
-        cnp.ndarray[cnp.int32_t, ndim=1] ed
+        cnp.ndarray[cnp.int32_t, ndim=1] ed,
         ):
     cdef cnp.ndarray[cnp.int32_t, ndim=1] res = np.zeros(n,dtype=np.int32)
     cdef int i
