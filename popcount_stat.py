@@ -37,7 +37,6 @@ k = 200
 m = 30
 n = 180
 arr = np.random.randint(0, 114514, size=(k, m, n), dtype=np.int64)
-ne.evaluate("arr  6")
 
 clock = time_ns()
 for i in range(100):
