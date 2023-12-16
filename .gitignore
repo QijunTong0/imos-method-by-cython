@@ -2,3 +2,5 @@ build/
 __pycache__/
 *.pyd
 *.c
+dist/
+*egg-info*
