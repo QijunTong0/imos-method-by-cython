@@ -1,28 +1,32 @@
 import numpy as np
 import time
-from imos_cython import imos1d_cython
+from tqdm import tqdm
+from imos_cython import imos_cython
 
-n = 76
-m = 70
+shape = np.array([200, 30, 70])
+n_index, d_index, _ = np.where(np.ones(shape=np.array([200, 30, 70]), dtype=np.int32))
 
-st = np.random.randint(0, n // 2, size=m, dtype=np.int32)
-ed = st + np.random.randint(0, n // 2, size=m, dtype=np.int32)
+st = np.random.randint(0, shape[2] // 2, size=shape, dtype=np.int32)
+ed = st + np.random.randint(0, shape[2] // 2, size=shape, dtype=np.int32)
+
+arr = np.random.randint(0, 2, size=(200, 30, 70, 70), dtype=np.bool_)
+time_st = time.time()
+for i in tqdm(range(500)):
+    arr.sum(axis=2)
+print("naive:", (time.time() - time_st), "s")
+
+
+st_ravel = np.ravel(st)
+ed_ravel = np.ravel(ed)
+time_st = time.time()
+for i in tqdm(range(500)):
+    res = np.zeros(shape, dtype=np.int32)
+    np.add.at(res, (n_index, d_index, st_ravel), 1)
+    np.add.at(res, (n_index, d_index, ed_ravel), -1)
+    np.cumsum(res, out=res, axis=2)
+print("imos_numpy:", (time.time() - time_st), "s")
 
 time_st = time.time()
-for i in range(10**6):
-    imos1d_cython(n, st, ed)
-print("imos_cython:", (time.time() - time_st), "ns")
-
-time_st = time.time()
-for i in range(10**6):
-    res = np.zeros(n)
-    np.add.at(res, st, 1)
-    np.add.at(res, ed, -1)
-    np.cumsum(res)
-print("imos_numpy:", (time.time() - time_st), "ns")
-
-arr = np.random.randint(0, 2, size=(m, n), dtype=np.bool_)
-time_st = time.time()
-for i in range(10**6):
-    arr.sum(axis=0)
-print("naive:", (time.time() - time_st), "ns")
+for i in tqdm(range(500)):
+    imos_cython(shape, st, ed)
+print("imos_cython:", (time.time() - time_st), "s")

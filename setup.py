@@ -1,11 +1,16 @@
-from setuptools import setup
+from setuptools import setup, Extension
 from Cython.Build import cythonize
 import numpy
 
 setup(
     name="imos_cython",
-    version="0.1",
-    ext_modules=cythonize("imos_cython.pyx"),
+    ext_modules=cythonize(
+        Extension(
+            name="imos_cython",
+            sources=["imos_cython.pyx"],
+            extra_compile_args=["-O2"],
+        )
+    ),
     include_dirs=[numpy.get_include()],
 )
 # >>> python setup.py build_ext --inplace
