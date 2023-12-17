@@ -5,8 +5,8 @@ cnp.import_array()
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-def imos_cython(cnp.ndarray[cnp.int16_t, ndim=1] shape, cnp.ndarray[cnp.int16_t, ndim=3] st, cnp.ndarray[cnp.int16_t, ndim=3] ed):
-    cdef cnp.ndarray[cnp.int16_t, ndim=3] res = np.zeros(shape,dtype=np.int16)
+def imos_cython(cnp.int16_t[:] shape, cnp.int16_t[:,:,:] st, cnp.int16_t[:,:,:] ed):
+    cdef cnp.int16_t[:,:,:] res = np.zeros(shape,dtype=np.int16)
     cdef int i,j,k
     for i in range(shape[0]):
         for j in range(shape[1]):
