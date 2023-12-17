@@ -3,17 +3,17 @@ import time
 from tqdm import tqdm
 from imos_cython import imos_cython
 
-shape = np.array([200, 30, 70], dtype=np.int16)
+shape = np.array([200, 30, 70, 10], dtype=np.int16)
 n_index, d_index, _ = np.where(np.ones(shape=np.array([200, 30, 70]), dtype=np.int16))
 
-st = np.random.randint(0, shape[2] // 2, size=shape, dtype=np.int16)
-ed = st + np.random.randint(0, shape[2] // 2, size=shape, dtype=np.int16)
+st = np.random.randint(0, shape[2] // 2, size=shape[:3], dtype=np.int16)
+ed = st + np.random.randint(0, shape[2] // 2, size=shape[:3], dtype=np.int16)
 staff_skill = np.random.randint(0, 2, size=(70, 10), dtype=np.int16)
 staff_skill_bool = np.random.randint(0, 2, size=(70, 10), dtype=np.int16)
 
-arr = np.random.randint(0, 2, size=(200, 30, 70, 70), dtype=np.bool_)
+arr = np.random.randint(0, 2, size=(200, 30, 70, 70, 1), dtype=np.bool_)
 time_st = time.time()
-for i in tqdm(range(100)):
+for i in tqdm(range(10)):
     arr = arr * staff_skill_bool[np.newaxis, np.newaxis, :, np.newaxis, :]
     arr.sum(axis=2)
 print("naive:", (time.time() - time_st), "s")
