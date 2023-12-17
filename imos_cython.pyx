@@ -5,20 +5,14 @@ cnp.import_array()
 
 @cython.wraparound(False)
 @cython.boundscheck(False)
-def imos_cython(
-        cnp.ndarray[cnp.int32_t, ndim=1] shape,
-        cnp.ndarray[cnp.int32_t, ndim=3] st,
-        cnp.ndarray[cnp.int32_t, ndim=3] ed,
-        cnp.ndarray[cnp.int32_t, ndim=2] staff_skill,
-        ):
-    cdef cnp.ndarray[cnp.int32_t, ndim=4] res = np.zeros(shape,dtype=np.int32)
+def imos_cython(cnp.ndarray[cnp.int32_t, ndim=1] shape, cnp.ndarray[cnp.int32_t, ndim=3] st, cnp.ndarray[cnp.int32_t, ndim=3] ed):
+    cdef cnp.ndarray[cnp.int32_t, ndim=3] res = np.zeros(shape,dtype=np.int32)
     cdef int i,j,k
     for i in range(shape[0]):
         for j in range(shape[1]):
             for k in range(st.shape[2]):
-                for l in range(staff_skill.shape[1]):
-                    res[i,j,st[i,j,k],l] += staff_skill[k,l]
-                    res[i,j,ed[i,j,k],l] -= staff_skill[k,l]
+                res[i,j,st[i,j,k]] += 1
+                res[i,j,ed[i,j,k]] -= 1
     for i in range(shape[0]):
         for j in range(shape[1]):
             for k in range(1,shape[2]):
