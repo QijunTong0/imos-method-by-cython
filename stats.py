@@ -3,7 +3,7 @@ import time
 from tqdm import tqdm
 from imos_cython import imos_cython
 
-shape = np.array([200, 30, 70])
+shape = np.array([200, 30, 70], dtype=np.int32)
 n_index, d_index, _ = np.where(np.ones(shape=np.array([200, 30, 70]), dtype=np.int32))
 
 st = np.random.randint(0, shape[2] // 2, size=shape, dtype=np.int32)
