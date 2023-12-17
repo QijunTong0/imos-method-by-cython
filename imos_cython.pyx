@@ -1,5 +1,5 @@
-import cython
 import numpy as np
+import cython
 cimport numpy as cnp
 cnp.import_array()
 
@@ -11,9 +11,9 @@ def imos_cython(cnp.ndarray[cnp.int32_t, ndim=1] shape, cnp.ndarray[cnp.int32_t,
     for i in range(shape[0]):
         for j in range(shape[1]):
             for k in range(st.shape[2]):
-                temp=st[i,j,k]
-                res[i,j,temp&7] += 1
-                res[i,j,temp>>2] -= 1
+                # temp=st[i,j,k]
+                res[i,j,st[i,j,k]] += 1
+                res[i,j,ed[i,j,k]]-= 1
     for i in range(shape[0]):
         for j in range(shape[1]):
             for k in range(1,shape[2]):
