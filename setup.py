@@ -8,7 +8,8 @@ setup(
         Extension(
             name="imos_cython",
             sources=["imos_cython.pyx"],
-            extra_compile_args=["-O3"],
+            extra_compile_args=["-O2"],
+            # extra_compile_args=["-O3", "-march=native"],
         )
     ),
     include_dirs=[numpy.get_include()],
