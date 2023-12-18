@@ -19,7 +19,7 @@ def imos_cython(
                 p=st[i,j,k]
                 q=ed[i,j,k]
                 r=staff_skill[k]
-                for l in range(8):
+                for l in range(16):
                     res[i,j,p,l] = res[i,j,p,l] + r>>l&1
                     res[i,j,q,l] = res[i,j,q,l] - r>>l&1
 
