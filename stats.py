@@ -14,21 +14,10 @@ staff_skill_bool = np.random.randint(0, 2, size=(70, t), dtype=np.int16)
 
 arr = np.random.randint(0, 2, size=(200, 30, 70, 70), dtype=np.bool_)
 time_st = time.time()
-for i in tqdm(range(10)):
+for i in tqdm(range(20)):
     np.dot(arr, staff_skill_bool)
 print("naive:", (time.time() - time_st), "s")
 
-"""
-st_ravel = np.ravel(st)
-ed_ravel = np.ravel(ed)
-time_st = time.time()
-for i in tqdm(range(100)):
-    res = np.zeros(shape, dtype=np.int32)
-    np.add.at(res, (n_index, d_index, st_ravel), 1)
-    np.add.at(res, (n_index, d_index, ed_ravel), -1)
-    np.cumsum(res, out=res, axis=2)
-print("imos_numpy:", (time.time() - time_st), "s")
-"""
 
 time_st = time.time()
 for i in tqdm(range(1000)):
