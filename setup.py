@@ -14,3 +14,4 @@ setup(
     include_dirs=[numpy.get_include()],
 )
 # >>> python setup.py build_ext --inplace
+# >>> python -m pip install --editable .
