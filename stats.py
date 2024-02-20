@@ -1,17 +1,12 @@
 import numpy as np
-import time
 from tqdm import tqdm
 from precalc_naive import precalc_st_dur_mapping_naive
+from cython_module import precalc_st_dur_mapping_cython
 
-calender = np.random.randint(0, 7, 2000)
+calender = (np.random.randint(0, 7, 2000) > 0).astype(np.int16)
 
-time_st = time.time()
-for i in tqdm(range(10)):
-    precalc_st_dur_mapping_naive(calender=calender)
-print("naive:", (time.time() - time_st), "s")
-
-
-time_st = time.time()
 for i in tqdm(range(1000)):
-    imos_cython(shape, st, ed)
-print("imos_cython:", (time.time() - time_st), "s")
+    precalc_st_dur_mapping_cython(calender)
+
+for i in tqdm(range(2)):
+    precalc_st_dur_mapping_naive(calender=calender)

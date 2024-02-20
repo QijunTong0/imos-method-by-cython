@@ -8,7 +8,7 @@ cnp.import_array()
 @cython.boundscheck(False)
 def precalc_st_dur_mapping_cython(cnp.int16_t[:] calender):
     cdef int size = calender.size
-    cdef cnp.ndarray[np.int16, ndim=3] st_ed_map = np.full((size, size, 2), -1, dtype=np.int16)
+    cdef cnp.int16_t[:,:,:] st_ed_map = np.full((size, size, 2), -1, dtype=np.int16)
     cdef int st_ind, actual_st_ind, curr_dur, ed_ind
     for st_ind in range(size):
         actual_st_ind = st_ind
