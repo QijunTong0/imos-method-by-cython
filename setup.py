@@ -3,11 +3,11 @@ from Cython.Build import cythonize
 import numpy
 
 setup(
-    name="imos_cython",
+    name="cython_experiment",
     ext_modules=cythonize(
         Extension(
-            name="imos_cython",
-            sources=["imos_cython.pyx"],
+            name="cython_module",
+            sources=["src_cython.pyx"],
             extra_compile_args=["-O2"],
         )
     ),
